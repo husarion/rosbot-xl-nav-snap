@@ -1,0 +1,57 @@
+name: snap
+on:
+  push:
+    tags:
+      - '*'
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      snap-file: ${{ steps.build-snap.outputs.snap }}
+    steps:
+
+    - uses: actions/checkout@v3
+      with:
+        fetch-tags: true
+
+    # Build the snap
+    - uses: snapcore/action-build@v1
+      id: build-snap
+
+    # Make sure the snap is installable
+    - run: |
+        sudo snap install --dangerous ${{ steps.build-snap.outputs.snap }}
+
+    # Save snap for subsequent job(s)
+    - uses: actions/upload-artifact@v3
+      with:
+        name: rosbot-xl-nav-snap
+        path: ${{ steps.build-snap.outputs.snap }}
+
+  publish:
+    if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/')
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+
+    # Retrieve the snap
+    - uses: actions/download-artifact@v3
+      with:
+        name: rosbot-xl-nav-snap
+        path: .
+
+    # Publish the snap on the store
+    # by default on 'edge' but on 'candidate' for tags
+    - uses: snapcore/action-publish@v1
+      env:
+        SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.STORE_LOGIN }}
+      with:
+        snap: ${{needs.build.outputs.snap-file}}
+        release: ${{ startsWith(github.ref, 'refs/tags/') && 'candidate' || 'edge'}}

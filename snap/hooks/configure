@@ -1,0 +1,28 @@
+#!/bin/bash -e
+
+SIMULATION="$(snapctl get simulation)"
+case "$SIMULATION" in
+	"true") ;;
+	"false") ;;
+	"0") ;;
+	"1") ;;
+	*)
+		>&2 echo "'$SIMULATION' is not a supported value for simulation." \
+      "Possible values are true, false, 0, 1"
+	    logger -t ${SNAP_NAME} "'$SIMULATION' is not a supported value for simulation." \
+      "Possible values are true, false, 0, 1"
+		return 1
+		;;
+esac
+
+OPTS="slam-config navigation-config localization-config"
+for OPT in ${OPTS}; do
+  VALUE="$(snapctl get ${OPT})"
+  if [ -n "${VALUE}" ]; then
+    if ! [[ -r "${VALUE}" && -f "${VALUE}" ]]; then
+	  >&2 echo "'$VALUE' is not a supported value for ${OPT}."
+	  logger -t ${SNAP_NAME} "'$VALUE' is not a supported value for ${OPT}."
+	  exit 1
+	fi
+  fi
+done
