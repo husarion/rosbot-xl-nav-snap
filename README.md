@@ -43,7 +43,7 @@ This application allows for mapping the environment.
 It can be launch as follows,
 
 ```bash
-snap start rosbot-xl-teleop.slam
+snap start rosbot-xl-nav.slam
 ```
 
 One can then drive the robot around to create a 2D representation of the environment.
