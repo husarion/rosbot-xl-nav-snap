@@ -54,7 +54,7 @@ Once the area is covered, stop the application with,
 snap stop rosbot-xl-teleop.slam
 ```
 
-Upon stopping the application automatically save the map at `${SNAP_COMMON}/maps/current_map.{png,yaml}`.
+Upon stopping the application automatically save the map at `$SNAP_COMMON/maps/current_map.{png,yaml}`.
 
 The slam configuration file can be found at `$SNAP_COMMON/config/slam_params.yaml` and can thus be edited.
 Shall you want to reinitialise it,
