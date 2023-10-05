@@ -51,7 +51,7 @@ One can then drive the robot around to create a 2D representation of the environ
 Once the area is covered, stop the application with,
 
 ```bash
-snap stop rosbot-xl-teleop.slam
+snap stop rosbot-xl-nav.slam
 ```
 
 Upon stopping the application automatically save the map at `$SNAP_COMMON/maps/current_map.{png,yaml}`.
