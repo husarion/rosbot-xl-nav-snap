@@ -94,10 +94,12 @@ you can simply issue the command `rosbot-xl-nav.reset-config` which will reset a
 
 ## Notes
 
-Note that this snap is part of an integrated snaps deployment.
-Other recommended snaps to be installed are,
-
-- [micro-xrce-dds-agent](LINK)
-- [sllidar-ros2](https://snapcraft.io/sllidar-ros2)
-- [rosbot-xl](https://snapcraft.io/rosbot-xl)
-- [rosbot-xl-teleop](https://snapcraft.io/rosbot-xl-teleop)
+> **Note**
+> This snap is part of an integrated snaps deployment.
+> 
+> Other recommended snaps to be installed are,
+> 
+> - [micro-xrce-dds-agent](LINK)
+> - [sllidar-ros2](https://snapcraft.io/sllidar-ros2)
+> - [rosbot-xl-teleop](https://snapcraft.io/rosbot-xl-teleop)
+> - [rosbot-xl-nav](https://snapcraft.io/rosbot-xl-nav)
