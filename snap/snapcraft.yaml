@@ -58,9 +58,6 @@ apps:
   slam:
     command: usr/bin/slam_launcher.sh
     daemon: simple
-    # @todo(artivis) figure out why can't we set those in the env
-    # environment:
-    #   LD_LIBRARY_PATH: "$SNAP/opt/ros/underlay_ws/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/blas:$SNAP/opt/ros/underlay_ws/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/lapack"
     install-mode: disable
     stop-command: usr/bin/save_map.sh
     post-stop-command: usr/bin/slam_post_stop.sh
