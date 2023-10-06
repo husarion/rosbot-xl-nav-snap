@@ -23,7 +23,11 @@ jobs:
 
     # Build the snap
     - uses: snapcore/action-build@v1
+      with:
+        snapcraft-channel: latest/edge
       id: build-snap
+      env:
+        SNAPCRAFT_ENABLE_EXPERIMENTAL_EXTENSIONS: 1
 
     # Make sure the snap is installable
     - run: |
