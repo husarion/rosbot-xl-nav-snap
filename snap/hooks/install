@@ -7,7 +7,7 @@ mkdir -p ${SNAP_COMMON}/maps
 . ${SNAP}/usr/bin/reset_config.sh
 
 # set default configuration values
-snapctl set simulation=false
+snapctl set simulation="False"
 snapctl set slam-config="${SNAP_COMMON}/config/slam_params.yaml"
 snapctl set navigation-config="${SNAP_COMMON}/config/nav2_params.yaml"
 snapctl set localization-config="${SNAP_COMMON}/config/localization_params.yaml"
