@@ -1,0 +1,78 @@
+name: rosbot-xl-nav
+version: '0.1'
+license: Apache-2.0
+summary: The rosbot-xl navigation snap
+description: |
+  The snap provides mapping, localization and navigation capabilities
+  to the ROSbot-XL.
+
+  The mapping application can be launched as,
+
+    snap start rosbot-xl-nav.slam
+
+  After launching the app, simply drive the robot around until you've mapped the area.
+  Once finished, stop the mapping with,
+
+    snap stop rosbot-xl-nav.slam
+
+  This will terminate the mapping and automatically
+  save the map in '${SNAP_COMMON}/maps/new_map.{yaml,png}'.
+
+  With the environment mapped, one can make use of the autonomous navigation.
+  To do so, start the localisation and navigation with,
+
+    snap start rosbot-xl-nav.localization
+    snap start rosbot-xl-nav.navigation
+
+grade: stable
+confinement: strict
+base: core22
+
+contact: https://github.com/husarion/rosbot-xl-nav-snap/issues
+issues: https://github.com/husarion/rosbot-xl-nav-snap/issues
+website: https://husarion.com/
+
+architectures:
+  - build-on: amd64
+  - build-on: arm64
+
+apps:
+  localization:
+    command: usr/bin/localization_launcher.sh
+    daemon: simple
+    install-mode: disable
+    plugs: [network, network-bind]
+    extensions: [ros2-humble-ros-base]
+
+  navigation:
+    command: usr/bin/navigation_launcher.sh
+    command-chain: [usr/bin/mux_select_nav_vel.sh]
+    daemon: simple
+    install-mode: disable
+    plugs: [network, network-bind]
+    extensions: [ros2-humble-ros-base]
+
+  reset-config:
+    command: usr/bin/reset_config.sh
+
+  slam:
+    command: usr/bin/slam_launcher.sh
+    daemon: simple
+    install-mode: disable
+    stop-command: usr/bin/save_map.sh
+    post-stop-command: usr/bin/slam_post_stop.sh
+    plugs: [network, network-bind]
+    extensions: [ros2-humble-ros-base]
+
+parts:
+  rosbot-xl-nav:
+    plugin: nil
+    stage-packages: [ros-humble-nav2-bringup]
+
+  # copy local scripts to the snap usr/bin
+  local-files:
+    plugin: dump
+    source: snap/local/
+    organize:
+      '*.sh': usr/bin/
+      '*.yaml': usr/share/rosbot-xl-nav/config/
